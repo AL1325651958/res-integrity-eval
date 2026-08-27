@@ -8,6 +8,8 @@
 
 | 文档 | 内容 | 读者 |
 |---|---|---|
+| `docs/部署运维手册.md` | 服务器环境要求、部署步骤、Nginx/systemd 配置、备份 | 运维 |
+| `scripts/deploy.sh` | 一键部署脚本（数据库+后端+前端+Nginx） | 运维 |
 | `docs/接口约定.md` | 前后端 API 契约（路径/响应/前端函数名/菜单组件映射） | 开发 |
 | `docs/技术架构设计.md` | 技术栈决策、前后端设计、权限、部署、非功能指标 | 开发 / 运维 |
 | `docs/业绩评分规则.md` | 业绩加分分值表、诚信扣分表、等级判定阈值（规则 V1.0） | 科研科 / 诚信委员会 / 开发 |
@@ -72,7 +74,19 @@ npm run dev        # 开发模式，/api 代理到 http://localhost:8080
 npm run build      # 生产构建（输出 dist/，由 Nginx 托管并反代 /api）
 ```
 
-### 3.4 初始账号
+### 3.4 一键部署（Linux 服务器）
+
+```bash
+# 全量部署（需 root；自动：建库→导入→构建后端→注册 systemd→构建前端→配置 Nginx）
+DB_PASSWORD=你的数据库密码 sudo bash scripts/deploy.sh
+
+# 分步执行
+sudo bash scripts/deploy.sh --db-only          # 仅初始化数据库
+sudo bash scripts/deploy.sh --backend-only     # 仅构建并启动后端
+sudo bash scripts/deploy.sh --frontend-only    # 仅构建前端并配置 Nginx
+```
+
+### 3.5 初始账号
 
 | 账号 | 角色 | 说明 |
 |---|---|---|

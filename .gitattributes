@@ -1,0 +1,5 @@
+# 统一换行与可执行位
+* text=auto
+
+# 脚本类文件：Linux 部署环境必须 LF + 可执行
+*.sh text eol=lf

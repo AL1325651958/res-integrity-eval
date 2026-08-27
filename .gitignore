@@ -33,3 +33,6 @@ application-local.yml
 # ============ 临时文件 ============
 _design_doc_extracted.txt
 tmp/
+
+# ============ 本地演示服务（不纳入仓库） ============
+mock/
