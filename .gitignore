@@ -1,0 +1,35 @@
+# ============ Node / 前端 ============
+node_modules/
+frontend/dist/
+dist/
+.npm-cache/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ============ Java / 后端 ============
+backend/target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# ============ 本地环境与编辑器 ============
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+*.log
+logs/
+hs_err_pid*
+
+# ============ 运行时数据与密钥 ============
+/data/
+*.local.yml
+application-local.yml
+.env.local
+.env.*.local
+
+# ============ 临时文件 ============
+_design_doc_extracted.txt
+tmp/

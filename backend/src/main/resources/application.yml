@@ -1,0 +1,43 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: integrity-system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/integrity_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ${DB_PASSWORD:123456}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 60MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 自定义配置
+integrity:
+  jwt:
+    secret: ${JWT_SECRET:integrity-system-hospital-2026-secret-key-please-change}
+    expire-minutes: 480            # 8 小时
+  file:
+    path: ${FILE_PATH:/data/integrity/files}
+
+logging:
+  level:
+    com.hospital.integrity: info
