@@ -107,8 +107,8 @@ fi
 
 # ---------------- 3. 后端构建与启动 ----------------
 if [ "$DO_BACKEND" = 1 ]; then
-  log "后端构建" "mvn clean package -DskipTests"
-  (cd backend && mvn clean package -DskipTests -q) || die "后端构建失败，请查看 Maven 输出"
+  log "后端构建" "mvn clean package -DskipTests（首次需下载依赖，请耐心等待）"
+  (cd backend && mvn clean package -DskipTests) || die "后端构建失败，请查看 Maven 输出"
   [ -f backend/target/integrity-system.jar ] || die "未找到构建产物 backend/target/integrity-system.jar"
   ok "后端构建完成: backend/target/integrity-system.jar"
 
