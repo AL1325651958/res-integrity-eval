@@ -77,13 +77,16 @@ npm run build      # 生产构建（输出 dist/，由 Nginx 托管并反代 /ap
 ### 3.4 一键部署（Linux 服务器）
 
 ```bash
-# 全量部署（需 root；自动：建库→导入→构建后端→注册 systemd→构建前端→配置 Nginx）
-DB_PASSWORD=你的数据库密码 sudo bash scripts/deploy.sh
+# 全量部署（root 直接运行；自动：建库→导入→构建后端→注册 systemd→构建前端→配置 Nginx）
+DB_PASSWORD=你的数据库密码 bash scripts/deploy.sh
+# 非 root 用 sudo 时，变量必须放在 sudo 之后（sudo 会剥离其前面的环境变量）：
+#   sudo DB_PASSWORD=你的数据库密码 bash scripts/deploy.sh
 
 # 分步执行
-sudo bash scripts/deploy.sh --db-only          # 仅初始化数据库
-sudo bash scripts/deploy.sh --backend-only     # 仅构建并启动后端
-sudo bash scripts/deploy.sh --frontend-only    # 仅构建前端并配置 Nginx
+bash scripts/deploy.sh --db-only          # 仅初始化数据库
+bash scripts/deploy.sh --backend-only     # 仅构建并启动后端
+bash scripts/deploy.sh --frontend-only    # 仅构建前端并配置 Nginx
+# 不传 DB_PASSWORD 时会交互式提示输入
 ```
 
 ### 3.5 初始账号

@@ -4,11 +4,13 @@
 # 适用：Linux（Ubuntu / CentOS）· 低并发单机部署
 #
 # 用法：
-#   sudo bash scripts/deploy.sh                     # 全量部署（数据库+后端+前端+Nginx）
-#   sudo bash scripts/deploy.sh --db-only           # 仅初始化数据库
-#   sudo bash scripts/deploy.sh --backend-only      # 仅构建并启动后端
-#   sudo bash scripts/deploy.sh --frontend-only     # 仅构建前端并配置 Nginx
-#   bash scripts/deploy.sh --skip-db                # 跳过数据库步骤
+#   bash scripts/deploy.sh                              # 全量部署（交互式输入 MySQL 密码）
+#   DB_PASSWORD=密码 bash scripts/deploy.sh             # 全量部署（root 直接运行）
+#   sudo DB_PASSWORD=密码 bash scripts/deploy.sh        # 全量部署（sudo 时变量须放在 sudo 之后）
+#   bash scripts/deploy.sh --db-only                    # 仅初始化数据库
+#   bash scripts/deploy.sh --backend-only               # 仅构建并启动后端
+#   bash scripts/deploy.sh --frontend-only              # 仅构建前端并配置 Nginx
+#   bash scripts/deploy.sh --skip-db                    # 跳过数据库步骤
 #
 # 前置：JDK 17、Maven 3.6+、MySQL 8.0、Node 18+、Nginx、Git
 # 配置可用环境变量覆盖（见下方 CONFIG 段），如：
@@ -29,6 +31,13 @@ BACKEND_PORT="${BACKEND_PORT:-8080}"
 NGINX_CONF="${NGINX_CONF:-/etc/nginx/conf.d/integrity.conf}"
 NPM_REGISTRY="${NPM_REGISTRY:-https://registry.npmmirror.com}"
 RUN_USER="${RUN_USER:-$(id -un)}"
+
+# 未通过环境变量提供数据库密码时，交互式输入（注意：sudo 会剥离环境变量，
+# 请使用 "DB_PASSWORD=xxx bash deploy.sh"（root 直接跑）或 "sudo DB_PASSWORD=xxx bash deploy.sh"）
+if [ -z "$DB_PASSWORD" ]; then
+  read -r -s -p "请输入 MySQL 密码（${DB_USER}@${DB_HOST}:${DB_PORT}）: " DB_PASSWORD
+  echo ""
+fi
 
 # ---------------- 参数解析 ----------------
 DB_ONLY=0; BACKEND_ONLY=0; FRONTEND_ONLY=0; SKIP_DB=0
