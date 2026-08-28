@@ -69,7 +69,6 @@ async function handleLogin() {
           </el-button>
         </el-form-item>
       </el-form>
-      <p class="login-tip">初始账号 admin / admin123，首次登录后请及时修改密码</p>
     </div>
   </div>
 </template>
@@ -128,12 +127,5 @@ async function handleLogin() {
 .login-btn {
   width: 100%;
   letter-spacing: 4px;
-}
-
-.login-tip {
-  margin: 4px 0 0;
-  text-align: center;
-  font-size: 12px;
-  color: #c0c4cc;
 }
 </style>
