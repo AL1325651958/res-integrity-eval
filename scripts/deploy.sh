@@ -129,6 +129,7 @@ ExecStart=/usr/bin/java -jar $APP_DIR/backend/target/integrity-system.jar
 Environment=DB_PASSWORD=$DB_PASSWORD
 Environment=JWT_SECRET=$JWT_SECRET
 Environment=FILE_PATH=$FILE_PATH
+Environment=SERVER_PORT=$BACKEND_PORT
 Restart=always
 RestartSec=5
 
@@ -148,6 +149,7 @@ EOF
     log "后端启动" "非 root / 无 systemd，使用 nohup 方式"
     pkill -f integrity-system.jar 2>/dev/null || true
     env DB_PASSWORD="$DB_PASSWORD" JWT_SECRET="$JWT_SECRET" FILE_PATH="$FILE_PATH" \
+      SERVER_PORT="$BACKEND_PORT" \
       nohup java -jar "$APP_DIR/backend/target/integrity-system.jar" \
       > "$APP_DIR/backend/run.log" 2>&1 &
     echo $! > "$APP_DIR/backend/run.pid"
