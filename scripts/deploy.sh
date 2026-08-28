@@ -28,6 +28,7 @@ DB_PASSWORD="${DB_PASSWORD:-}"
 JWT_SECRET="${JWT_SECRET:-$(openssl rand -hex 24 2>/dev/null || echo change-me-to-a-long-random-secret)}"
 FILE_PATH="${FILE_PATH:-/data/integrity/files}"
 BACKEND_PORT="${BACKEND_PORT:-8080}"
+WEB_PORT="${WEB_PORT:-80}"
 NGINX_CONF="${NGINX_CONF:-/etc/nginx/conf.d/integrity.conf}"
 NPM_REGISTRY="${NPM_REGISTRY:-https://registry.npmmirror.com}"
 RUN_USER="${RUN_USER:-$(id -un)}"
@@ -166,7 +167,7 @@ if [ "$DO_FRONTEND" = 1 ]; then
     log "Nginx 配置" "$NGINX_CONF"
     cat > "$NGINX_CONF" <<EOF
 server {
-    listen 80;
+    listen ${WEB_PORT};
     server_name _;
 
     root $APP_DIR/frontend/dist;
@@ -209,7 +210,7 @@ fi
 echo ""
 echo "══════════════════════════════════════════════════════════"
 echo "  部署完成"
-echo "  访问地址 : http://<服务器IP>/"
+echo "  访问地址 : http://<服务器IP>:${WEB_PORT}/   （WEB_PORT 默认 80，可自定义避免端口冲突）"
 echo "  管理员   : admin / admin123（首次登录后请修改密码）"
 echo "  附件目录 : $FILE_PATH"
 echo "  JWT密钥  : $JWT_SECRET  （请妥善保存；如需更换，修改环境变量后重启）"
