@@ -139,8 +139,9 @@ router.beforeEach(async (to) => {
       appStore.clearMenus()
       return { path: '/login', query: { redirect: to.fullPath } }
     }
-    // 重新导航，使刚注册的动态路由生效（刷新页面后直达深层地址也适用）
-    return { ...to, replace: true }
+    // 重新导航到原路径：只带 path/query/hash，绝不能携带 name/matched，
+    // 否则刷新时命中的 CatchAll 会因 name 解析再次命中通配路由导致空白
+    return { path: to.path, query: to.query, hash: to.hash, replace: true }
   }
 
   // 根路径 → 第一个动态路由
