@@ -192,6 +192,11 @@ server {
         try_files \$uri \$uri/ /index.html;
     }
 
+    # 入口页禁止缓存，避免发布后浏览器仍使用旧包
+    location = /index.html {
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
     location /assets/ {
         expires 30d;
         add_header Cache-Control "public, immutable";

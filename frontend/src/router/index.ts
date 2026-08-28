@@ -35,23 +35,26 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/error/404.vue'),
     meta: { title: '404' }
   },
-  // 工单详情页：静态子路由，挂在风险与处置菜单目录下（Layout 内渲染）、不在侧边栏显示，
-  // 供核查工单列表页（component=risk/CheckList）行点击跳转 /risk/check/:id 进入
+  // 工单详情页（非菜单项，供核查工单列表行点击进入）
   {
     path: '/risk/check/:id(\\d+)',
+    name: 'CheckDetail',
     component: Layout,
     children: [
       {
         path: '',
-        name: 'CheckDetail',
         component: () => import('@/views/risk/CheckDetail.vue'),
         meta: { title: '工单详情', hidden: true }
       }
     ]
   },
+  // 通配路由：直接渲染 404 组件（不能 redirect 到 /404，
+  // 否则刷新时动态路由未注册，原路径会被吞成 /404 导致页面空白）
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/404'
+    name: 'CatchAll',
+    component: () => import('@/views/error/404.vue'),
+    meta: { title: '404' }
   }
 ]
 
