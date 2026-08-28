@@ -96,6 +96,18 @@ bash scripts/deploy.sh --frontend-only    # 仅构建前端并配置 Nginx
 | `admin / admin123` | 系统管理员 | 全部功能；首次登录后请修改密码 |
 | 其余角色 | doctor/dept_admin/auditor/committee/leader | 由管理员在"系统管理 → 用户管理"中创建并分配角色 |
 
+### 3.6 初始化业务数据（可选，试运行/演示用）
+
+```bash
+# 导入科室、人员、成果、风控工单等业务数据（幂等，可重复执行；年度评价由系统计算生成）
+mysql -u root -p integrity_db < sql/init_demo.sql
+```
+
+导入后登录系统 → "诚信评价 → 评价管理" → 选择年度 → **触发计算**（2024/2025/2026），即可生成全员年度评价与明细。
+
+演示账号（普通人员 `123456`；科研科/委员会/院领导 `666888`）：
+`zhangwei01`（心内科主任，C 级·一稿多投）、`tangxue02`（呼吸科，D 级·抄袭一票否决）、`shenjie02`（神经外科，B 级·整改完成）、`wangliqun01`（科研科审核员）、`zhaomingyuan01`（诚信委员会）、`liujianguo01`（院领导）等，详见 `sql/init_demo.sql` 头部说明。
+
 ## 四、核心功能实现状态
 
 | 模块 | 实现内容 |
